@@ -4,7 +4,8 @@ Release History
 dev
 ---
 
-- \[Short description of non-trivial change.\]
+**Bugfixes**
+- Fixed case-sensitivity in `requests.utils.get_encoding_from_headers` by normalizing media type tokens in `_parse_content_type_header` to lowercase per RFC 9110 §8.3.1. (#7647)
 
 
 2.34.2 (2026-05-14)

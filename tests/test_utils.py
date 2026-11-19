@@ -630,6 +630,9 @@ def test_parse_dict_header(value, expected):
             ),
         ),
         ("application/json ; ; ", ("application/json", {})),
+        ("TEXT/PLAIN", ("text/plain", {})),
+        ("Text/Plain ; charset=utf-8", ("text/plain", {"charset": "utf-8"})),
+        ("APPLICATION/JSON ; ; ", ("application/json", {})),
     ),
 )
 def test__parse_content_type_header(value, expected):
@@ -645,8 +648,16 @@ def test__parse_content_type_header(value, expected):
             "utf-8",
         ),
         (CaseInsensitiveDict({"content-type": "text/plain"}), "ISO-8859-1"),
+        (CaseInsensitiveDict({"content-type": "TEXT/PLAIN"}), "ISO-8859-1"),
+        (CaseInsensitiveDict({"content-type": "Text/Plain"}), "ISO-8859-1"),
+        (CaseInsensitiveDict({"content-type": "APPLICATION/JSON"}), "utf-8"),
+        (CaseInsensitiveDict({"content-type": "Application/Json"}), "utf-8"),
         (
             CaseInsensitiveDict({"content-type": "text/html; charset"}),
+            "ISO-8859-1",
+        ),
+        (
+            CaseInsensitiveDict({"content-type": "TEXT/HTML; charset"}),
             "ISO-8859-1",
         ),
     ),
